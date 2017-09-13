@@ -1,34 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
-    <div class="container">
-        <h1>登录</h1> {% for message in get_flashed_messages() %}
+{%extends 'auth/base.html'%} {% import "bootstrap/wtf.html" as wtf %} {% block title%} 登录 {% endblock %} {% block content %}
+<div class="container">
+    <h1>登录</h1> {% for message in get_flashed_messages() %}
 
 
-        <div class="alert alert-warning">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {{message}}
-        </div>
-        {% endfor %}
-        <div class="col-md-4">
-
-            <form action="/auth/login" method="post">
-                {{ form.csrf_token }} {{ form.username() }} {{ form.password() }}
-                <input type="submit" value='go'>
-            </form>
-            <p>没有账户吗？
-                <a href="{{url_for('auth.register')}}">注册</a>
-            </p>
-        </div>
-
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {{message}}
     </div>
-</body>
+    {% endfor %}
+    <div class="col-md-4">
 
-</html>
+        {{wtf.quick_form(form)}}
+        <p>没有账户吗？
+            <a href="{{url_for('auth.register')}}">注册</a>
+        </p>
+    </div>
+
+</div>
+
+{% endblock %}
