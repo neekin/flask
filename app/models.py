@@ -12,8 +12,11 @@ class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255),unique=True,index=True)
     username = db.Column(db.String(255),unique=True)
+    nickname = db.Column(db.String(255))
     password_hash = db.Column(db.String(128))
-    
+    userlogs = db.relationship('UserLog', backref='user')
+    stems = db.relationship('Stem',backref='user')
+   
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')
@@ -27,73 +30,32 @@ class User(UserMixin,db.Model):
         
         
     def __repr__(self):
-        return "<用户: %r>" % self.name
+        return "<用户: %r>" % self.username
     
     
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# class UserLog(db.Model):
-#     # 会员登陆日志
-#     __tablename__ = 'userlog'
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # 外键定义，指向user表的id字段。在user表中也要进行相应的设置
-#     ip = db.Column(db.String(100))
-#     addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-
-#     def __repr__(self):
-#         return "<UserLog %r>" % self.id
-
-
-
-
-# # 权限
-# class Auth(db.Model):
-#     __tablename__ = 'auth'
-#     id = db.Column(db.Integer, primary_key=True)  # 编号
-#     name = db.Column(db.String(100), unique=True)  # 权限名称
-#     url = db.Column(db.String(255), unique=True)  # 地址
-#     addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # 添加时间
-
-#     def __repr__(self):
-#         return "<Auth %r>" % self.name
+class UserLog(db.Model):
+    # 会员登陆日志
+    __tablename__ = 'userlogs'
+    id = db.Column(db.Integer, primary_key=True)
+    ip = db.Column(db.String(100))
+    addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+        nullable=False)
+    def __repr__(self):
+        return "<UserLog %r>" % self.id
+    
 
 
-# # 角色
-# class Role(db.Model):
-#     __tablename__ = 'role'
-#     id = db.Column(db.Integer, primary_key=True)  # 编号
-#     name = db.Column(db.String(100), unique=True)  # 角色名称
-#     auths = db.Column(db.String(600))  # 权限列表
-#     addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)  # 添加时间
 
-#     def __repr__(self):
-#         return "<Role %r>" % self.name
-
-# # 管理员登陆日志
-# class AdminLog(db.Model):
-#     __tablename__ = 'adminlog'
-#     id = db.Column(db.Integer, primary_key=True)
-#     admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))  # 外键定义，指向admin表的id字段。在admin表中也要进行相应的设置
-#     ip = db.Column(db.String(100))
-#     addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-
-#     def __repr__(self):
-#         return "<AdminLog %r>" % self.id
-
-# # 管理员操作日志
-# class OpLog(db.Model):
-    # __tablename__ = 'oplog'
-    # id = db.Column(db.Integer, primary_key=True)
-    # admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))  # 外键定义，指向admin表的id字段。在admin表中也要进行相应的设置
-    # ip = db.Column(db.String(100)) # 操作ip
-    # reason=db.Column(db.String(600)) # 操作原因
-    # addtime = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-
-    # def __repr__(self):
-    #     return "<OpLog %r>" % self.id
-
-
-if __name__ =='__main__': # 直接执行models.py文件来生成数据库表
-    db.create_all()    
+class Stem(db.Model):
+    __tablename__ = 'stems'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
+    content = db.Column(db.Text,nullable=False)
+    pub_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    def __repr__(self):
+        return "<Conent %r>" % self.id

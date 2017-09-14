@@ -1,8 +1,14 @@
 {%extends 'auth/base.html'%} {% import "bootstrap/wtf.html" as wtf %} {% block title%} 登录 {% endblock %} {% block content %}
 <div class="container">
-    <h1>首页</h1> {% for message in get_flashed_messages() %}
-
-
+    <h1>首页</h1> 
+    {% if current_user.is_authenticated %}
+    {{ wtf.quick_form(form,action='/poststem') }}
+    {% endif %}
+    {% for stem in stems %}
+    <p> {{stem.user.username}}:{{stem.content}}</p>
+    {% endfor %}
+    
+    {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {{message}}
     </div>
