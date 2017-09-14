@@ -1,18 +1,46 @@
-{%extends 'auth/base.html'%} {% import "bootstrap/wtf.html" as wtf %} {% block title%} 登录 {% endblock %} {% block content %}
+{%extends 'main/base.html'%} {% import "bootstrap/wtf.html" as wtf %} {% block title%} 有脑洞 {% endblock %} {% block content %}
 <div class="container">
-    <h1>首页</h1> 
-    {% if current_user.is_authenticated %}
-    {{ wtf.quick_form(form,action='/poststem') }}
-    {% endif %}
-    {% for stem in stems %}
-    <p> {{stem.user.username}}:{{stem.content}}</p>
-    {% endfor %}
-    
+    <ol class="breadcrumb">
+        <li><a href="/">首页</a></li>
+
+    </ol>
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {{message}}
     </div>
-    {% endfor %}
+    {% endfor %} {% if current_user.is_authenticated %} {{ wtf.quick_form(form,action='/poststem') }} {% endif %}
+    <div class="row">
+        <div class="col-md-9">
+            {% for stem in stems %}
+            <div class="panel panel-default" style='min-height:180px;'>
+
+                <div class="panel-body">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img style='width:64px;border-radius:50%;' class="media-object" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=523024675,1399288021&fm=27&gp=0.jpg" alt="...">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">{{stem.user.username}}</h4>
+                            {{stem.content}} Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
+                            congue felis in faucibus. Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                        </div>
+                        <div class="media-footer">
+                            <div class="btn-group" role="group" aria-label="...">
+                                <button type="button" class="btn btn-default">Left</button>
+                                <button type="button" class="btn btn-default">Middle</button>
+                                <button type="button" class="btn btn-default">Right</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
 
 
 </div>
