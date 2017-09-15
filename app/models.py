@@ -59,3 +59,12 @@ class Stem(db.Model):
     pub_date = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     def __repr__(self):
         return "<Conent %r>" % self.id
+    
+class HahaPointLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fromStem_id = db.Column(db.Integer, db.ForeignKey('stem.id'),nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
+    
+    def __repr__(self):
+        return "<hahapoint %r>" % self.id
+    

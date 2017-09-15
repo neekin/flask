@@ -2,7 +2,7 @@
 <div class="container">
     <ol class="breadcrumb">
         <li><a href="/">首页</a></li>
-
+    
     </ol>
     {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
@@ -10,7 +10,7 @@
     </div>
     {% endfor %} {% if current_user.is_authenticated %} {{ wtf.quick_form(form,action='/poststem') }} {% endif %}
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             {% for stem in stems %}
             <div class="panel panel-default" style='min-height:180px;'>
 
@@ -26,17 +26,53 @@
                             {{stem.content}} Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia
                             congue felis in faucibus. Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
                         </div>
-                        <div class="media-footer">
-                            <div class="btn-group" role="group" aria-label="...">
-                                <button type="button" class="btn btn-default">Left</button>
-                                <button type="button" class="btn btn-default">Middle</button>
-                                <button type="button" class="btn btn-default">Right</button>
+                        <div class="media-footer text-center" style='margin-top:20px'>
+                            <div class="btn-group" role="group">
+                                <!-- <button type="button" class="btn btn-default">Get</button> -->
+                                {{wtf.quick_form(hahaForm,action='/gethahapoint')}}
+                                <button type="button" class="btn btn-default">吐槽</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
+        </div>
+        <div class="col-md-4">
+                {% if current_user.is_authenticated %} 
+                <div class="panel panel-default">
+                        <div class="panel-heading">
+                            个人信息
+                        </div>
+                        <div class="panel-body">
+                            你是本站第{{current_user.id}}位会员
+                        </div>
+                    </div>
+                    {% endif %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    今日梗最多
+                </div>
+                <div class="panel-body">
+                  
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    今日笑点最多
+                </div>
+                <div class="panel-body">
+                    
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    今日槽点最多
+                </div>
+                <div class="panel-body">
+                   
+                </div>
+            </div>
         </div>
     </div>
 
