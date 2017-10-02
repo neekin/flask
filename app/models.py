@@ -61,8 +61,9 @@ class Stem(db.Model):
         return "<Conent %r>" % self.id
     
 class HahaPointLog(db.Model):
+    __tablename__ = 'haha_point_logs'
     id = db.Column(db.Integer, primary_key=True)
-    fromStem_id = db.Column(db.Integer, db.ForeignKey('stem.id'),nullable=False)
+    fromStem_id = db.Column(db.Integer, db.ForeignKey('stems.id'),nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
     
     def __repr__(self):
